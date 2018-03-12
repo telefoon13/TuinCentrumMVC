@@ -47,9 +47,10 @@
             @Html.DisplayFor(modelItem => item.Soort.Naam)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.PlantNr }) |
-            @Html.ActionLink("Details", "Details", new { id=item.PlantNr }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.PlantNr })
+            @Html.ActionLink("Edit", "Edit", new { id = item.PlantNr }) |
+            @Html.ActionLink("Details", "Details", new { id = item.PlantNr }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.PlantNr }) |
+            @Html.ActionLink("Upload foto", "UpLoaden", new { id = item.PlantNr })
         </td>
     </tr>
 }
