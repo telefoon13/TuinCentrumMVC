@@ -1,0 +1,40 @@
+﻿@model TuinCentrumMVC.Models.ZoekSoortViewModel
+@{
+    ViewBag.Title = "ZoekForm";
+}
+
+<h2>ZoekForm</h2>
+
+@using (Html.BeginForm("BeginNaam", "Soorts", FormMethod.Get))
+{
+    <div>
+        @Html.LabelFor(m => m.beginNaam)
+        @Html.EditorFor(m => m.beginNaam)
+        @Html.ValidationMessageFor(m => m.beginNaam)
+    </div>
+
+    <input type="submit" value="Zoek" class="btn btn-primary" />
+}
+@if (Model.Soorten != null)
+{
+    if (Model.Soorten.Count() > 0)
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Soort</th>
+                    <th>Magazijnnr</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var soort in Model.Soorten)
+                {
+                    <tr>
+                        <td>@soort.Naam</td>
+                        <td>@soort.MagazijnNr</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}

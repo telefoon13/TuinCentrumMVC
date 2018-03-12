@@ -7,112 +7,110 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TuinCentrumMVC.Models;
-using TuinCentrumMVC.Services;
 
 namespace TuinCentrumMVC.Controllers
 {
-    public class SoortsController : Controller
+    public class LeveranciersController : Controller
     {
         private MVCTuinCentrumEntities db = new MVCTuinCentrumEntities();
-        private SoortService soortService = new SoortService();
 
-        // GET: Soorts
+        // GET: Leveranciers
         public ActionResult Index()
         {
-            return View(db.Soorts.ToList());
+            return View(db.Leveranciers.ToList());
         }
 
-        // GET: Soorts/Details/5
+        // GET: Leveranciers/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Soort soort = db.Soorts.Find(id);
-            if (soort == null)
+            Leverancier leverancier = db.Leveranciers.Find(id);
+            if (leverancier == null)
             {
                 return HttpNotFound();
             }
-            return View(soort);
+            return View(leverancier);
         }
 
-        // GET: Soorts/Create
+        // GET: Leveranciers/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Soorts/Create
+        // POST: Leveranciers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SoortNr,Naam,MagazijnNr")] Soort soort)
+        public ActionResult Create([Bind(Include = "LevNr,Naam,Adres,PostNr,Woonplaats")] Leverancier leverancier)
         {
             if (ModelState.IsValid)
             {
-                db.Soorts.Add(soort);
+                db.Leveranciers.Add(leverancier);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(soort);
+            return View(leverancier);
         }
 
-        // GET: Soorts/Edit/5
+        // GET: Leveranciers/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Soort soort = db.Soorts.Find(id);
-            if (soort == null)
+            Leverancier leverancier = db.Leveranciers.Find(id);
+            if (leverancier == null)
             {
                 return HttpNotFound();
             }
-            return View(soort);
+            return View(leverancier);
         }
 
-        // POST: Soorts/Edit/5
+        // POST: Leveranciers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SoortNr,Naam,MagazijnNr")] Soort soort)
+        public ActionResult Edit([Bind(Include = "LevNr,Naam,Adres,PostNr,Woonplaats")] Leverancier leverancier)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(soort).State = EntityState.Modified;
+                db.Entry(leverancier).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(soort);
+            return View(leverancier);
         }
 
-        // GET: Soorts/Delete/5
+        // GET: Leveranciers/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Soort soort = db.Soorts.Find(id);
-            if (soort == null)
+            Leverancier leverancier = db.Leveranciers.Find(id);
+            if (leverancier == null)
             {
                 return HttpNotFound();
             }
-            return View(soort);
+            return View(leverancier);
         }
 
-        // POST: Soorts/Delete/5
+        // POST: Leveranciers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Soort soort = db.Soorts.Find(id);
-            db.Soorts.Remove(soort);
+            Leverancier leverancier = db.Leveranciers.Find(id);
+            db.Leveranciers.Remove(leverancier);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -124,25 +122,6 @@ namespace TuinCentrumMVC.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        //Zelf geschreven 
-
-        public ViewResult ZoekForm()
-        {
-            return View(new ZoekSoortViewModel());
-        }
-
-        public ViewResult BeginNaam(ZoekSoortViewModel form)
-        {
-            if (this.ModelState.IsValid)
-            {
-                form.Soorten = soortService.FindByBeginNaam(form.beginNaam);
-            }
-
-            return View("ZoekForm", form);
-
-
         }
     }
 }

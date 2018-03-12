@@ -7,112 +7,119 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TuinCentrumMVC.Models;
-using TuinCentrumMVC.Services;
 
 namespace TuinCentrumMVC.Controllers
 {
-    public class SoortsController : Controller
+    public class PlantsController : Controller
     {
         private MVCTuinCentrumEntities db = new MVCTuinCentrumEntities();
-        private SoortService soortService = new SoortService();
 
-        // GET: Soorts
+        // GET: Plants
         public ActionResult Index()
         {
-            return View(db.Soorts.ToList());
+            var plants = db.Plants.Include(p => p.Leverancier).Include(p => p.Soort);
+            return View(plants.ToList());
         }
 
-        // GET: Soorts/Details/5
+        // GET: Plants/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Soort soort = db.Soorts.Find(id);
-            if (soort == null)
+            Plant plant = db.Plants.Find(id);
+            if (plant == null)
             {
                 return HttpNotFound();
             }
-            return View(soort);
+            return View(plant);
         }
 
-        // GET: Soorts/Create
+        // GET: Plants/Create
         public ActionResult Create()
         {
+            ViewBag.Levnr = new SelectList(db.Leveranciers, "LevNr", "Naam");
+            ViewBag.SoortNr = new SelectList(db.Soorts, "SoortNr", "Naam");
             return View();
         }
 
-        // POST: Soorts/Create
+        // POST: Plants/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SoortNr,Naam,MagazijnNr")] Soort soort)
+        public ActionResult Create([Bind(Include = "PlantNr,Naam,SoortNr,Levnr,Kleur,VerkoopPrijs")] Plant plant)
         {
             if (ModelState.IsValid)
             {
-                db.Soorts.Add(soort);
+                db.Plants.Add(plant);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(soort);
+            ViewBag.Levnr = new SelectList(db.Leveranciers, "LevNr", "Naam", plant.Levnr);
+            ViewBag.SoortNr = new SelectList(db.Soorts, "SoortNr", "Naam", plant.SoortNr);
+            return View(plant);
         }
 
-        // GET: Soorts/Edit/5
+        // GET: Plants/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Soort soort = db.Soorts.Find(id);
-            if (soort == null)
+            Plant plant = db.Plants.Find(id);
+            if (plant == null)
             {
                 return HttpNotFound();
             }
-            return View(soort);
+            ViewBag.Levnr = new SelectList(db.Leveranciers, "LevNr", "Naam", plant.Levnr);
+            ViewBag.SoortNr = new SelectList(db.Soorts, "SoortNr", "Naam", plant.SoortNr);
+            return View(plant);
         }
 
-        // POST: Soorts/Edit/5
+        // POST: Plants/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SoortNr,Naam,MagazijnNr")] Soort soort)
+        public ActionResult Edit([Bind(Include = "PlantNr,Naam,SoortNr,Levnr,Kleur,VerkoopPrijs")] Plant plant)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(soort).State = EntityState.Modified;
+                db.Entry(plant).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(soort);
+            ViewBag.Levnr = new SelectList(db.Leveranciers, "LevNr", "Naam", plant.Levnr);
+            ViewBag.SoortNr = new SelectList(db.Soorts, "SoortNr", "Naam", plant.SoortNr);
+            return View(plant);
         }
 
-        // GET: Soorts/Delete/5
+        // GET: Plants/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Soort soort = db.Soorts.Find(id);
-            if (soort == null)
+            Plant plant = db.Plants.Find(id);
+            if (plant == null)
             {
                 return HttpNotFound();
             }
-            return View(soort);
+            return View(plant);
         }
 
-        // POST: Soorts/Delete/5
+        // POST: Plants/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Soort soort = db.Soorts.Find(id);
-            db.Soorts.Remove(soort);
+            Plant plant = db.Plants.Find(id);
+            db.Plants.Remove(plant);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -124,25 +131,6 @@ namespace TuinCentrumMVC.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        //Zelf geschreven 
-
-        public ViewResult ZoekForm()
-        {
-            return View(new ZoekSoortViewModel());
-        }
-
-        public ViewResult BeginNaam(ZoekSoortViewModel form)
-        {
-            if (this.ModelState.IsValid)
-            {
-                form.Soorten = soortService.FindByBeginNaam(form.beginNaam);
-            }
-
-            return View("ZoekForm", form);
-
-
         }
     }
 }
