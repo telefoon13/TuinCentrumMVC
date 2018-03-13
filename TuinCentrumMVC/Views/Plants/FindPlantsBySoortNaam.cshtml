@@ -1,0 +1,40 @@
+﻿@model List<TuinCentrumMVC.Models.Plant>
+
+@{
+    ViewBag.Title = "FindPlantsBySoortNaam";
+}
+<h2>FindPlantenBySoortNaam</h2>
+
+@if (Model != null)
+{
+    if (Model.Count() > 0)
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Naam</th>
+                    <th>Soort</th>
+                    <th>Leverancier</th>
+                    <th>Kleur</th>
+                    <th>Prijs</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Naam)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Soort.Naam)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Leverancier.Naam)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Kleur)</td>
+                        <td>@Html.DisplayFor(modelItem => item.VerkoopPrijs)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h3>Niks gevonden</h3>
+    }
+}
