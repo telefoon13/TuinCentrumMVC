@@ -8,14 +8,25 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TuinCentrumMVC.Models;
+using TuinCentrumMVC.Filters;
 
 namespace TuinCentrumMVC.Controllers
 {
+    //ActionFilter met Controller scope
+    //[StatistiekActionFilter(Order = 3)]
+    //GlobalFilter uitschakelen voor bepaalde Controller
+    //[OverrideActionFilters]
+    //Zelf error type en view kiezen controller of action scope
+    //[HandleError(ExceptionType = typeof(EntityException), View = "DatabaseError")]
     public class PlantsController : Controller
     {
         private MVCTuinCentrumEntities db = new MVCTuinCentrumEntities();
 
         // GET: Plants
+        //ActionFilter met Action scope
+        //[StatistiekActionFilter(Order = 6)]
+        //GlobalFilter uitschakelen voor bepaalde Action
+        //[OverrideActionFilters]
         public ActionResult Index()
         {
             var plants = db.Plants.Include(p => p.Leverancier).Include(p => p.Soort);

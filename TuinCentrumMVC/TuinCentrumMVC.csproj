@@ -154,6 +154,8 @@
     <Compile Include="Controllers\LeveranciersController.cs" />
     <Compile Include="Controllers\PlantsController.cs" />
     <Compile Include="Controllers\SoortsController.cs" />
+    <Compile Include="Controllers\StatistiekController.cs" />
+    <Compile Include="Filters\StatistiekActionFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -274,6 +276,8 @@
     <Content Include="Views\Leveranciers\Index.cshtml" />
     <Content Include="Views\Soorts\ZoekForm.cshtml" />
     <Content Include="Views\Plants\UpLoaden.cshtml" />
+    <Content Include="Views\Statistiek\Index.cshtml" />
+    <Content Include="Views\Shared\DatabaseError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

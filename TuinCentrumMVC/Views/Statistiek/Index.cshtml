@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Statistiek index</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>URL</th>
+            <th>Bezoeken</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var entry in TuinCentrumMVC.Filters.StatistiekActionFilter.Statistiek)
+        {
+            <tr> <td>@entry.Key</td> <td>@entry.Value</td> </tr>}
+    </tbody>
+</table>
