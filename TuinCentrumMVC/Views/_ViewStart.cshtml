@@ -1,3 +1,17 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var culture = Request["culture"];
+    if (!culture.IsEmpty())
+    {
+        Session["culture"] = culture;
+    }
+    if (culture.IsEmpty())
+    {
+        culture = (string)Session["culture"];
+    }
+    if (!culture.IsEmpty())
+    {
+        Culture = UICulture = culture;
+    }
 }

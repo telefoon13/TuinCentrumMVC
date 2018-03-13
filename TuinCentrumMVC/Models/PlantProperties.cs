@@ -8,8 +8,8 @@ namespace TuinCentrumMVC.Models
 {
     public class PlantProperties
     {
-
-        [Range(0,100)]
+        [Display(ResourceType = typeof(Resources.Teksten), Name = "LablePrijs")]
+        [Range(0,100, ErrorMessageResourceType = typeof(Resources.Teksten), ErrorMessageResourceName = "RangePrijs")]
         public decimal VerkoopPrijs { get; set; }
     }
 }
